@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SmartHome</string>
+    <string name="margenIzq">"5dp"</string>
+    <string name="margenSup">"5dp"</string>
+</resources>
