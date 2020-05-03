@@ -60,7 +60,7 @@ public class AnyadirLocActivity extends AppCompatActivity implements View.OnClic
 
                 location = new Location(nombre,brokerIP,clientId);
 
-                if(!etAnyadirLoc.equals("") || !etAnyadirLoc.equals(" ") && (!LocationActivity.getLocations().contains(etAnyadirLoc.getText().toString()))) {
+                if(!etAnyadirLoc.equals("") || !etAnyadirLoc.equals(" ") && (!LocationActivity.getLocationsNombres().contains(etAnyadirLoc.getText().toString()))) {
                     LocationActivity.getLocations().add(location);
                     LocationActivity.getLocationsNombres().add(location.getNombre());
                     finish();

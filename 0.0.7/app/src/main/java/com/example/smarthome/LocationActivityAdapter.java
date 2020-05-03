@@ -38,6 +38,16 @@ public class LocationActivityAdapter extends RecyclerView.Adapter<LocationActivi
 
                 Intent intent = new Intent(context, PlanoActivity.class);
                 intent.putExtra("nombrelugar",tvNombreLocation.getText());
+
+                for(int i = 0; i < LocationActivity.getLocations().size(); i++){
+
+                    if(LocationActivity.getLocations().get(i).getNombre().equals(tvNombreLocation.getText().toString())) {
+
+                        intent.putExtra("serverURI", "tcp://" + LocationActivity.getLocations().get(i).getServerURI() + ":1883");
+
+                    }
+                }
+
                 context.startActivity(intent);
 
             }

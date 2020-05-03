@@ -41,8 +41,6 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
         ibAnyadir = findViewById(R.id.ibAnyadir);
         ibAnyadir.setOnClickListener(this);
 
-
-
         locations = new ArrayList<>();
         locationsNombres = new ArrayList<>();
 

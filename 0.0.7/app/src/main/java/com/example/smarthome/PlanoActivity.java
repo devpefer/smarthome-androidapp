@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 public class PlanoActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
     private String nombrelugar;
-    private String serverURI = "tcp://192.168.0.106:1883";
+    private String serverURI;
     private String clientId = "";
     private final String TOPIC = "ewpe-smart/#";
     private MQTTUtils mqttAndroidClient;
@@ -57,6 +59,9 @@ public class PlanoActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_plano);
 
         nombrelugar = getIntent().getExtras().getString("nombrelugar");
+        serverURI = getIntent().getExtras().getString("serverURI");
+
+        Log.i("IP",serverURI);
 
         macs = new ArrayList<>();
 
