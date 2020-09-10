@@ -173,7 +173,6 @@ public class MQTTUtils {
                         PlanoActivity.getAircoParams().get(i).setWdSpd(aircoParamsTemp.getWdSpd());
 
                         PlanoActivity.getmAdapter().notifyDataSetChanged();
-
                     }
 
                 }
@@ -199,6 +198,23 @@ public class MQTTUtils {
                 RemoteCtrlActivity.refrescarParams();
 
             }
+
+            } else if (topic.equals("stat/" + mac + "/POWER")) {
+
+                Sonoff sonoffTemp;
+                sonoffTemp = gson.fromJson(payLoad, Sonoff.class);
+
+                sonoffTemp.setMac(mac);
+
+                for (int i = 0; i < PlanoActivity.getAircoParams().size(); i++) {
+
+                    if (PlanoActivity.getAircoParams().get(i).getMac().equals(sonoffTemp.getMac())) {
+
+                        PlanoActivity.getAircoParams().get(i).setPow(sonoffTemp.getPow());
+
+                    }
+
+                }
 
             }
         }
