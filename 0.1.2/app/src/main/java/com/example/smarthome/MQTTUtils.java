@@ -223,20 +223,24 @@ public class MQTTUtils {
 
             String mac;
             mac = topic;
-            mac = mac.replace("ewpe-smart/", "");
-            mac = mac.replace("/status", "");
 
-            if (!macs.contains(mac) && !mac.contains("devices/list")) {
+            if (mac.contains("ewpe"));
+            {
+                mac = mac.replace("ewpe-smart/", "");
+                mac = mac.replace("/status", "");
 
-                macs.add(mac);
+                if (!macs.contains(mac) && !mac.contains("devices/list")) {
 
-            }
+                    macs.add(mac);
 
-            if (!BuscarActivity.getMacs().contains(mac) && !mac.contains("devices/list")) {
+                }
 
-                BuscarActivity.getMacs().add(mac);
-                BuscarActivity.getmAdapter().notifyDataSetChanged();
+                if (!BuscarActivity.getMacs().contains(mac) && !mac.contains("devices/list")) {
 
+                    BuscarActivity.getMacs().add(mac);
+                    BuscarActivity.getmAdapter().notifyDataSetChanged();
+
+                }
             }
 
             return mac;

@@ -62,15 +62,24 @@ public class PlanoActivityAdapter extends RecyclerView.Adapter<PlanoActivityAdap
         @Override
         public void onClick(View v) {
 
-            if(v.getId() == R.id.lytRecyclerPlano) {
+            if (arrayAires.get(getAdapterPosition()) instanceof AireAcondicionado) {
+                if (v.getId() == R.id.lytRecyclerPlano) {
 
-                Intent intent = new Intent(context, RemoteCtrlActivity.class);
-                int position = getAdapterPosition();
-                intent.putExtra("mac",arrayAires.get(position).getMac());
-                context.startActivity(intent);
+                    Intent intent = new Intent(context, RemoteCtrlActivity.class);
+                    int position = getAdapterPosition();
+                    intent.putExtra("mac", arrayAires.get(position).getMac());
+                    context.startActivity(intent);
 
+                }
             }
 
+            if (arrayAires.get(getAdapterPosition()) instanceof Sonoff) {
+                if (v.getId() == R.id.lytRecyclerPlano) {
+
+                    PlanoActivity.getMqttAndroidClient().publishMessage("cmnd/" + arrayAires.get(getAdapterPosition()).getMac() + "/POWER", "toggle");
+
+                }
+            }
         }
     }
 

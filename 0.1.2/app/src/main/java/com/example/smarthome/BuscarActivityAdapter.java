@@ -48,9 +48,9 @@ public class BuscarActivityAdapter extends RecyclerView.Adapter<BuscarActivityAd
                 }
             }else if(v.getId() == R.id.btnAnyadirDispositivo) {
 
+                AireAcondicionado aireAcondicionado = new AireAcondicionado();
 
-
-                PlanoActivity.anyadirDispositivo(tvNombreDelDispositivo,etNombreDelDispositivo);
+                PlanoActivity.anyadirDispositivo(aireAcondicionado,tvNombreDelDispositivo.getText().toString(),etNombreDelDispositivo.getText().toString());
 
             }
 

@@ -207,35 +207,35 @@ public class PlanoActivity extends AppCompatActivity implements View.OnClickList
             }
         }
 
-
-
         mAdapter.notifyDataSetChanged();
 
     }
 
-    public static void anyadirDispositivo(TextView mac, TextView nombre) {
+    public static void anyadirDispositivo(MQTTDevice device, String mac, String nombre) {
 
-        MQTTDevice aireAcondicionado = new AireAcondicionado();
-        aireAcondicionado.setMac(mac.getText().toString());
-        aireAcondicionado.setName(nombre.getText().toString());
-        aireAcondicionado.setAir("");
-        aireAcondicionado.setBlo("");
-        aireAcondicionado.setHealth("");
-        aireAcondicionado.setLig("");
-        aireAcondicionado.setMod("");
-        aireAcondicionado.setPow("");
-        aireAcondicionado.setQuiet("");
-        aireAcondicionado.setSetTem("");
-        aireAcondicionado.setSvSt("");
-        aireAcondicionado.setSwhSlp("");
-        aireAcondicionado.setSwingLfRig("");
-        aireAcondicionado.setSwUpDn("");
-        aireAcondicionado.setTemRec("");
-        aireAcondicionado.setTemUn("");
-        aireAcondicionado.setTur("");
-        aireAcondicionado.setWdSpd("");
-
-        aircoParams.add(aireAcondicionado);
+        if(device instanceof AireAcondicionado) {
+            device.setMac(mac);
+            device.setName(nombre);
+            device.setAir("");
+            device.setBlo("");
+            device.setHealth("");
+            device.setLig("");
+            device.setMod("");
+            device.setPow("");
+            device.setQuiet("");
+            device.setSetTem("");
+            device.setSvSt("");
+            device.setSwhSlp("");
+            device.setSwingLfRig("");
+            device.setSwUpDn("");
+            device.setTemRec("");
+            device.setTemUn("");
+            device.setTur("");
+            device.setWdSpd("");
+        } else if (device instanceof Sonoff) {
+            device.setPow("");
+        }
+        aircoParams.add(device);
 
         mAdapter.notifyDataSetChanged();
 
