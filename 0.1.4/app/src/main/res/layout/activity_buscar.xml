@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".BuscarActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerListaDispositivos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnAnyadirTasmota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recyclerListaDispositivos"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorAccent"
+        android:text="Añadir"/>
+
+    <EditText
+        android:id="@+id/etSonoff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Sonoff/Tasmota"
+        android:layout_alignBottom="@id/btnAnyadirTasmota"/>
+
+    <Button
+        android:id="@+id/btnAnyadirRPi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/btnAnyadirTasmota"
+        android:background="@color/colorAccent"
+        android:text="Añadir"/>
+
+    <EditText
+        android:id="@+id/etRPi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="RPi"
+        android:layout_alignBottom="@id/btnAnyadirRPi"/>
+
+
+</RelativeLayout>
