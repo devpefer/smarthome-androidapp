@@ -38,6 +38,7 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
     private Gson gson;
 
     private static ArrayList<MQTTDevice> devices;
+    private static ArrayList<String> topics;
     private static ArrayList<AireAcondicionado> AirCoParams;
     private static ArrayList<Sonoff> SonoffParams;
     private static ArrayList<RPi> RPiParams;
@@ -75,7 +76,10 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
         RPiParams = new ArrayList<>();
 
         mqttAndroidClient = new MQTTUtils(getApplicationContext(), serverURI, "");
-        mqttAndroidClient.conectar("ewpe-smart/#");
+        topics = new ArrayList<>();
+        topics.add("ewpe-smart/#");
+        topics.add("pyrpi/#");
+        mqttAndroidClient.conectar(topics);
 
         tvMisSitios = findViewById(R.id.tvMisSitios);
         tvMisSitios.setText("Mis dispositivos en " + nombrelugar);

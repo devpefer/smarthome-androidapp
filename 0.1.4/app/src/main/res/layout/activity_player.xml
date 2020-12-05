@@ -5,11 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".DeviceListActivity">
 
     <LinearLayout
+        android:id="@+id/lytPlayerTodo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
@@ -55,26 +57,39 @@
                 android:text="Prev"
                 android:textSize="12dp" />
 
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/esquinas_redondeadas"
+                android:text="Rf"
+                android:textSize="12dp" />
+
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerPlayer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignBottom="@id/tvMisSitios"
             android:background="@color/colorPrimaryDark"/>
 
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/ibAnyadirDispositivo"
+    <EditText
+        android:id="@+id/etYoutubeLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/lytPlayerTodo"
+        android:hint="Enlance de YouTube"/>
+
+    <Button
+        android:id="@+id/btnYouTubeLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Descargar"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/colorPrimaryDark"
-        app:srcCompat="@drawable/ic_fabmenu" />
+        android:layout_alignBottom="@+id/etYoutubeLink"/>
+
 </RelativeLayout>

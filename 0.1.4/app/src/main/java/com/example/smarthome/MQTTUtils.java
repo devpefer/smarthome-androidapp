@@ -36,7 +36,7 @@ public class MQTTUtils {
     }
 
 
-        public void conectar (final String topic) {
+        public void conectar (final ArrayList<String> topics) {
 
             this.mqttAndroidClient = new MqttAndroidClient(context, serverURI, clientId);
 
@@ -66,8 +66,9 @@ public class MQTTUtils {
                         @Override
                         public void onSuccess(IMqttToken asyncActionToken) {
 
-                            subscribeTopic(topic);
-
+                            for (int i = 0; i < topics.size(); i++) {
+                                subscribeTopic(topics.get(i));
+                            }
                         }
 
                         @Override
@@ -216,6 +217,20 @@ public class MQTTUtils {
 
                 }
 
+            } else if (topic.equals("pyrpi/youtube/listaFicheros")) {
+
+                String[] listaFicheros;
+                listaFicheros=payLoad.split(";");
+
+                PlayerActivity.getArchivos().clear();
+
+                for (int i = 0; i < listaFicheros.length; i++) {
+
+                    PlayerActivity.getArchivos().add(listaFicheros[i]);
+
+                }
+
+                PlayerActivity.getmAdapter().notifyDataSetChanged();
             }
         }
 
