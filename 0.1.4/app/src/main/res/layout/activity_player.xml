@@ -71,25 +71,20 @@
             android:id="@+id/recyclerPlayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/tvMisSitios"
+            android:layout_below="@id/lytPlayerTodo"
             android:background="@color/colorPrimaryDark"/>
-
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/etYoutubeLink"
+    <ImageButton
+        android:id="@+id/ibDescargar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lytPlayerTodo"
-        android:hint="Enlance de YouTube"/>
-
-    <Button
-        android:id="@+id/btnYouTubeLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Descargar"
         android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/etYoutubeLink"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_fabmenu" />
 
 </RelativeLayout>

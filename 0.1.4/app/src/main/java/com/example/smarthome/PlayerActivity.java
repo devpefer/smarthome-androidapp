@@ -1,14 +1,19 @@
 package com.example.smarthome;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
@@ -19,8 +24,7 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
     private Button btnNext;
     private Button btnPrev;
     private Button btnRefresh;
-    private EditText etYoutubeLink;
-    private Button btnYoutubeLink;
+    private ImageButton ibDescargar;
     private static RecyclerView recyclerView;
     private static RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -41,14 +45,14 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
         btnNext = findViewById(R.id.btnNext);
         btnPrev = findViewById(R.id.btnPrev);
         btnRefresh = findViewById(R.id.btnRefresh);
+        ibDescargar = findViewById(R.id.ibDescargar);
 
         btnPlay.setOnClickListener(this);
         btnPause.setOnClickListener(this);
         btnRefresh.setOnClickListener(this);
+        ibDescargar.setOnClickListener(this);
 
-        etYoutubeLink = findViewById(R.id.etYoutubeLink);
-        btnYoutubeLink = findViewById(R.id.btnYouTubeLink);
-        btnYoutubeLink.setOnClickListener(this);
+        DeviceListActivity.getMqttAndroidClient().publishMessage("pyrpi/youtube/refrescarLista", "");
 
         recyclerView = findViewById(R.id.recyclerPlayer);
         recyclerView.setHasFixedSize(true);
@@ -72,20 +76,15 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
                 DeviceListActivity.getMqttAndroidClient().publishMessage("pyrpi/youtube/parar", "");
                 break;
 
-            case R.id.btnYouTubeLink:
-                DeviceListActivity.getMqttAndroidClient().publishMessage("pyrpi/youtube/descargar", etYoutubeLink.getText().toString());
-                break;
-
             case R.id.btnRefresh:
                 DeviceListActivity.getMqttAndroidClient().publishMessage("pyrpi/youtube/refrescarLista", "");
                 break;
+
+            case R.id.ibDescargar:
+                descargar();
+                break;
+
         }
-    }
-
-    public void refrescarLista() {
-
-
-
     }
 
     public static ArrayList<String> getArchivos() {
@@ -98,5 +97,26 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
 
     public static void setmAdapter(RecyclerView.Adapter mAdapter) {
         PlayerActivity.mAdapter = mAdapter;
+    }
+
+    private void descargar() {
+        final EditText txtUrl = new EditText(this);
+
+        txtUrl.setHint("URL de YouTube");
+
+        new AlertDialog.Builder(this)
+                .setTitle("Descargar de YouTube")
+                .setMessage("Pega la URL de YouTube")
+                .setView(txtUrl)
+                .setPositiveButton("Descargar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        DeviceListActivity.getMqttAndroidClient().publishMessage("pyrpi/youtube/descargar", txtUrl.getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .show();
     }
 }

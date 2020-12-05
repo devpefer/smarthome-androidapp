@@ -106,7 +106,7 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
 
         AirCoParams = gson.fromJson(objetosAires, listTypeAires);
         SonoffParams = gson.fromJson(objetosSonoff, listTypeSonoff);
-        RPiParams = gson.fromJson(objetosSonoff, listTypeSonoff);
+        RPiParams = gson.fromJson(objetosRPi, listTypeRPi);
 
         if (!(AirCoParams == null) && (!AirCoParams.isEmpty())) {
             devices.addAll(AirCoParams);
