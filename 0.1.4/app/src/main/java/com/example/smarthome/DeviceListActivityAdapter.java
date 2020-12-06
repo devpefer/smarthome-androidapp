@@ -238,7 +238,6 @@ public class DeviceListActivityAdapter extends RecyclerView.Adapter<DeviceListAc
 
         else if (misSitios.get(position) instanceof Sonoff) {
 
-            holder.tvPower.setVisibility(View.GONE);
             holder.tvSetTemp.setVisibility(View.GONE);
             holder.tvTurbo.setVisibility(View.GONE);
             holder.tvFan.setVisibility(View.GONE);
@@ -246,6 +245,7 @@ public class DeviceListActivityAdapter extends RecyclerView.Adapter<DeviceListAc
             holder.tvSwing.setVisibility(View.GONE);
             holder.tvHealth.setVisibility(View.GONE);
             holder.tvDisplay.setVisibility(View.GONE);
+
 
             String estado = "Estado: ";
 
@@ -258,6 +258,20 @@ public class DeviceListActivityAdapter extends RecyclerView.Adapter<DeviceListAc
                 estado = "Estado: Encendido";
 
             }
+            holder.tvPower.setText(estado);
+        }
+
+        else if (misSitios.get(position) instanceof RPi) {
+
+            holder.tvPower.setVisibility(View.GONE);
+            holder.tvSetTemp.setVisibility(View.GONE);
+            holder.tvTurbo.setVisibility(View.GONE);
+            holder.tvFan.setVisibility(View.GONE);
+            holder.tvMode.setVisibility(View.GONE);
+            holder.tvSwing.setVisibility(View.GONE);
+            holder.tvHealth.setVisibility(View.GONE);
+            holder.tvDisplay.setVisibility(View.GONE);
+
         }
     }
 

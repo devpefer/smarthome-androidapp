@@ -68,7 +68,19 @@ public class MQTTUtils {
 
                             for (int i = 0; i < topics.size(); i++) {
                                 subscribeTopic(topics.get(i));
+
                             }
+
+                            for (int i = 0; i < DeviceListActivity.getDevices().size(); i++) {
+
+                                if (DeviceListActivity.getDevices().get(i) instanceof Sonoff) {
+
+                                    DeviceListActivity.getMqttAndroidClient().publishMessage("cmnd/" + DeviceListActivity.getDevices().get(i).getMac() + "/POWER", "");
+
+                                }
+
+                            }
+
                         }
 
                         @Override
@@ -83,6 +95,7 @@ public class MQTTUtils {
                     e.printStackTrace();
                 }
             }
+
         }
 
         public void desconectar () {
@@ -144,7 +157,6 @@ public class MQTTUtils {
 
             String payLoad = new String(message.getPayload());
 
-
             if (topic.equals("ewpe-smart/" + mac + "/status")) {
 
                 AireAcondicionado aircoParamsTemp;
@@ -201,18 +213,12 @@ public class MQTTUtils {
             }
 
             } else if (topic.equals("stat/" + mac + "/POWER")) {
-
-                Sonoff sonoffTemp;
-                sonoffTemp = gson.fromJson(payLoad, Sonoff.class);
-
-                sonoffTemp.setMac(mac);
-
                 for (int i = 0; i < DeviceListActivity.getDevices().size(); i++) {
 
-                    if (DeviceListActivity.getDevices().get(i).getMac().equals(sonoffTemp.getMac())) {
-
-                        DeviceListActivity.getDevices().get(i).setPow(sonoffTemp.getPow());
-
+                    if (DeviceListActivity.getDevices().get(i).getMac().equals(mac)) {
+                        Log.i("ESTA ES LA MAC",DeviceListActivity.getDevices().get(i).getMac());
+                        DeviceListActivity.getDevices().get(i).setPow(payLoad);
+                        DeviceListActivity.getmAdapter().notifyDataSetChanged();
                     }
 
                 }
@@ -239,8 +245,7 @@ public class MQTTUtils {
             String mac;
             mac = topic;
 
-            if (mac.contains("ewpe"));
-            {
+            if (mac.contains("ewpe")) {
                 mac = mac.replace("ewpe-smart/", "");
                 mac = mac.replace("/status", "");
 
@@ -256,7 +261,15 @@ public class MQTTUtils {
                     BuscarActivity.getmAdapter().notifyDataSetChanged();
 
                 }
+            } else if (mac.contains("stat/") && (mac.contains("/POWER"))) {
+
+                mac = mac.replace("stat/","");
+                mac = mac.replace("/POWER","");
+
+                macs.add(mac);
+
             }
+
 
             return mac;
 

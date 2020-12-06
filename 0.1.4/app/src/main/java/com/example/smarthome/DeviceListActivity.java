@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,12 +76,6 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
         SonoffParams = new ArrayList<>();
         RPiParams = new ArrayList<>();
 
-        mqttAndroidClient = new MQTTUtils(getApplicationContext(), serverURI, "");
-        topics = new ArrayList<>();
-        topics.add("ewpe-smart/#");
-        topics.add("pyrpi/#");
-        mqttAndroidClient.conectar(topics);
-
         tvMisSitios = findViewById(R.id.tvMisSitios);
         tvMisSitios.setText("Mis dispositivos en " + nombrelugar);
 
@@ -123,6 +118,13 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
 
         }
 
+        mqttAndroidClient = new MQTTUtils(getApplicationContext(), serverURI, "");
+        topics = new ArrayList<>();
+        topics.add("ewpe-smart/#");
+        topics.add("pyrpi/#");
+        topics.add("stat/#");
+        mqttAndroidClient.conectar(topics);
+
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -134,7 +136,6 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
 
     protected void onStart() {
         super.onStart();
-
 
     }
 
@@ -187,6 +188,22 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
 
     public static ArrayList<MQTTDevice> getDevices() {
         return DeviceListActivity.devices;
+    }
+
+    public static ArrayList<Sonoff> getSonoffParams() {
+        return SonoffParams;
+    }
+
+    public static void setSonoffParams(ArrayList<Sonoff> sonoffParams) {
+        SonoffParams = sonoffParams;
+    }
+
+    public static ArrayList<RPi> getRPiParams() {
+        return RPiParams;
+    }
+
+    public static void setRPiParams(ArrayList<RPi> RPiParams) {
+        DeviceListActivity.RPiParams = RPiParams;
     }
 
     public static RecyclerView.Adapter getmAdapter() {
