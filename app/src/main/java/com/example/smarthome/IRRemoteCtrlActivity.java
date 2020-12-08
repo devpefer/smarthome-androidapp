@@ -48,7 +48,7 @@ public class IRRemoteCtrlActivity extends AppCompatActivity implements View.OnCl
         switch (view.getId()) {
 
             case R.id.ivPower:
-                DeviceListActivity.getMqttAndroidClient().publishMessage("cmnd/" + mac + "/irsend","{'Protocol':'NEC_LIKE','Bits':32,'Data':'0x032504DE','DataLSB':'0xC0A4207B',\"Repeat':0}");
+                DeviceListActivity.getMqttAndroidClient().publishMessage("cmnd/" + mac + "/irsend","{\"Protocol\":\"NEC_LIKE\",\"Bits\":32,\"Data\":\"0x032504DE\",\"DataLSB\":\"0xC0A4207B\",\"Repeat\":0}");
                 break;
             case R.id.ivSubirTemp:
                 DeviceListActivity.getMqttAndroidClient().publishMessage("cmnd/" + mac + "/irsend","{\"Protocol\":\"NEC_LIKE\",\"Bits\":32,\"Data\":\"0x032468A0\",\"DataLSB\":\"0xC0241605\",\"Repeat\":0}");
