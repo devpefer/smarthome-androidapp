@@ -3,6 +3,8 @@ package com.example.smarthome;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.smarthome.ewpe.AireAcondicionado;
+import com.example.smarthome.tasmota.Sonoff;
 import com.google.gson.Gson;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -36,7 +38,7 @@ public class MQTTUtils {
     }
 
 
-        public void conectar (final ArrayList<String> topics) {
+        public void conectar () {
 
             this.mqttAndroidClient = new MqttAndroidClient(context, serverURI, clientId);
 
@@ -66,10 +68,9 @@ public class MQTTUtils {
                         @Override
                         public void onSuccess(IMqttToken asyncActionToken) {
 
-                            for (int i = 0; i < topics.size(); i++) {
-                                subscribeTopic(topics.get(i));
-
-                            }
+                            subscribeTopic("ewpe-smart/#");
+                            subscribeTopic("pyrpi/#");
+                            subscribeTopic("stat/#");
 
                             for (int i = 0; i < DeviceListActivity.getDevices().size(); i++) {
 

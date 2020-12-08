@@ -11,6 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.ewpe.AireAcondicionado;
+import com.example.smarthome.raspberrypi.RPi;
+import com.example.smarthome.tasmota.IRAireAcondicionado;
+import com.example.smarthome.tasmota.Sonoff;
+
 import java.util.ArrayList;
 
 public class DeviceListActivityAdapter extends RecyclerView.Adapter<DeviceListActivityAdapter.ViewHolderDatos>  {
@@ -74,6 +79,17 @@ public class DeviceListActivityAdapter extends RecyclerView.Adapter<DeviceListAc
                 if (v.getId() == R.id.lytRecyclerPlano) {
 
                     DeviceListActivity.getMqttAndroidClient().publishMessage("cmnd/" + arrayAires.get(getAdapterPosition()).getMac() + "/POWER", "toggle");
+
+                }
+            }
+
+            else if (arrayAires.get(getAdapterPosition()) instanceof IRAireAcondicionado) {
+                if (v.getId() == R.id.lytRecyclerPlano) {
+
+                    Intent intent = new Intent(context, IRRemoteCtrlActivity.class);
+                    int position = getAdapterPosition();
+                    intent.putExtra("mac", arrayAires.get(position).getMac());
+                    context.startActivity(intent);
 
                 }
             }
@@ -259,6 +275,19 @@ public class DeviceListActivityAdapter extends RecyclerView.Adapter<DeviceListAc
 
             }
             holder.tvPower.setText(estado);
+        }
+
+        else if (misSitios.get(position) instanceof IRAireAcondicionado) {
+
+            holder.tvPower.setVisibility(View.GONE);
+            holder.tvSetTemp.setVisibility(View.GONE);
+            holder.tvTurbo.setVisibility(View.GONE);
+            holder.tvFan.setVisibility(View.GONE);
+            holder.tvMode.setVisibility(View.GONE);
+            holder.tvSwing.setVisibility(View.GONE);
+            holder.tvHealth.setVisibility(View.GONE);
+            holder.tvDisplay.setVisibility(View.GONE);
+
         }
 
         else if (misSitios.get(position) instanceof RPi) {

@@ -1,6 +1,8 @@
-package com.example.smarthome;
+package com.example.smarthome.raspberrypi;
 
-public class RPi extends MQTTDevice{
+import com.example.smarthome.MQTTDevice;
+
+public class RPi extends MQTTDevice {
     private String pow ="OFF";
     private String mac = "";
     private String name = "";

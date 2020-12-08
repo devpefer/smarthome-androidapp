@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlayerActivity"></activity>
+        <activity android:name=".IRRemoteCtrlActivity"></activity>
+        <activity android:name=".PlayerActivity" />
         <activity android:name=".BuscarActivity" />
         <activity android:name=".AnyadirLocActivity" />
         <activity android:name=".DeviceListActivity" />

@@ -1,6 +1,6 @@
-package com.example.smarthome;
+package com.example.smarthome.ewpe;
 
-public class AireAcondicionado extends MQTTDevice {
+public class AireAcondicionado extends EwpeSmartDevice {
 
     private String Pow = "0";
     private String Mod = "0";

@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.ewpe.AireAcondicionado;
+import com.example.smarthome.tasmota.Sonoff;
+
 import java.util.ArrayList;
 
 public class PlanoActivityAdapter extends RecyclerView.Adapter<PlanoActivityAdapter.ViewHolderDatos>  {

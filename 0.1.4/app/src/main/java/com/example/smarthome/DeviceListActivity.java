@@ -1,14 +1,9 @@
 package com.example.smarthome;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +12,14 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.ewpe.AireAcondicionado;
+import com.example.smarthome.raspberrypi.RPi;
+import com.example.smarthome.tasmota.IRAireAcondicionado;
+import com.example.smarthome.tasmota.Sonoff;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,9 +41,9 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
     private Gson gson;
 
     private static ArrayList<MQTTDevice> devices;
-    private static ArrayList<String> topics;
     private static ArrayList<AireAcondicionado> AirCoParams;
     private static ArrayList<Sonoff> SonoffParams;
+    private static ArrayList<IRAireAcondicionado> irAirCoParams;
     private static ArrayList<RPi> RPiParams;
 
     private static RecyclerView recyclerView;
@@ -74,6 +76,7 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
         devices = new ArrayList<>();
         AirCoParams = new ArrayList<>();
         SonoffParams = new ArrayList<>();
+        irAirCoParams = new ArrayList<>();
         RPiParams = new ArrayList<>();
 
         tvMisSitios = findViewById(R.id.tvMisSitios);
@@ -91,16 +94,20 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         gson = new Gson();
+
         String objetosAires = prefs.getString("listaAires"+nombrelugar,null);
         String objetosSonoff = prefs.getString("listaSonoff"+nombrelugar,null);
+        String objetosIRAires = prefs.getString("listaIRAires"+nombrelugar,null);
         String objetosRPi = prefs.getString("listaRPi"+nombrelugar,null);
 
         Type listTypeAires = new TypeToken<ArrayList<AireAcondicionado>>(){}.getType();
         Type listTypeSonoff = new TypeToken<ArrayList<Sonoff>>(){}.getType();
+        Type listTypeIRAires = new TypeToken<ArrayList<IRAireAcondicionado>>(){}.getType();
         Type listTypeRPi = new TypeToken<ArrayList<RPi>>(){}.getType();
 
         AirCoParams = gson.fromJson(objetosAires, listTypeAires);
         SonoffParams = gson.fromJson(objetosSonoff, listTypeSonoff);
+        irAirCoParams = gson.fromJson(objetosIRAires, listTypeIRAires);
         RPiParams = gson.fromJson(objetosRPi, listTypeRPi);
 
         if (!(AirCoParams == null) && (!AirCoParams.isEmpty())) {
@@ -113,17 +120,18 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
 
         }
 
+        if (!(irAirCoParams == null) && (!irAirCoParams.isEmpty())) {
+            devices.addAll(irAirCoParams);
+
+        }
+
         if (!(RPiParams == null) && (!RPiParams.isEmpty())) {
             devices.addAll(RPiParams);
 
         }
 
         mqttAndroidClient = new MQTTUtils(getApplicationContext(), serverURI, "");
-        topics = new ArrayList<>();
-        topics.add("ewpe-smart/#");
-        topics.add("pyrpi/#");
-        topics.add("stat/#");
-        mqttAndroidClient.conectar(topics);
+        mqttAndroidClient.conectar();
 
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -142,6 +150,10 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (!mqttAndroidClient.getMqttAndroidClient().isConnected()) {
+            mqttAndroidClient.conectar();
+        }
 
     }
 
@@ -253,6 +265,27 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
             SharedPreferences.Editor prefsEditor = prefs.edit();
 
             prefsEditor.putString("listaSonoff"+nombrelugar,arrayListDisp);
+            prefsEditor.apply();
+
+        } else if (device instanceof IRAireAcondicionado) {
+
+            if(irAirCoParams == null) {
+                irAirCoParams = new ArrayList<>();
+            }
+
+            irAirCoParams.add((IRAireAcondicionado) device);
+
+            SharedPreferences prefs;
+
+            Gson gson = new Gson();
+
+            String arrayListDisp = gson.toJson(irAirCoParams);
+
+            prefs = PreferenceManager.getDefaultSharedPreferences(LocationActivity.getContext());
+
+            SharedPreferences.Editor prefsEditor = prefs.edit();
+
+            prefsEditor.putString("listaIRAires"+nombrelugar,arrayListDisp);
             prefsEditor.apply();
 
         } else if (device instanceof RPi) {

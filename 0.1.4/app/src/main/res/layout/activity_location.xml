@@ -20,7 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@android:color/transparent"
         app:srcCompat="@drawable/ic_fabmenu" />
 
 

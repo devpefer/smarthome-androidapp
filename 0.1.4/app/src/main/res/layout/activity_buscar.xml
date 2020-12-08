@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,43 +9,62 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerListaDispositivos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
 
-    <Button
-        android:id="@+id/btnAnyadirTasmota"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/lytTasmota"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/recyclerListaDispositivos"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/colorAccent"
-        android:text="Añadir"/>
+        android:orientation="horizontal"
+        android:background="@drawable/esquinas_redondeadas">
 
     <EditText
-        android:id="@+id/etSonoff"
+        android:id="@+id/etTasmota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Sonoff/Tasmota"
+        android:hint="Tasmota"
         android:layout_alignBottom="@id/btnAnyadirTasmota"/>
 
-    <Button
-        android:id="@+id/btnAnyadirRPi"
+    <Spinner
+        android:id="@+id/spnTasmota"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_below="@+id/btnAnyadirTasmota"
-        android:background="@color/colorAccent"
-        android:text="Añadir"/>
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"/>
+
+        <Button
+            android:id="@+id/btnAnyadirTasmota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Añadir"
+            android:background="@drawable/esquinas_redondeadas"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lytRaspberry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/lytTasmota"
+        android:background="@drawable/esquinas_redondeadas">
 
     <EditText
         android:id="@+id/etRPi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="RPi"
-        android:layout_alignBottom="@id/btnAnyadirRPi"/>
+        android:hint="Raspberry"/>
 
+        <Button
+            android:id="@+id/btnAnyadirRPi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Añadir"
+            android:background="@drawable/esquinas_redondeadas"/>
+    </LinearLayout>
 
 </RelativeLayout>

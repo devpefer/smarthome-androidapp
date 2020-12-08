@@ -1,26 +1,33 @@
 package com.example.smarthome;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
+import com.example.smarthome.raspberrypi.RPi;
+import com.example.smarthome.tasmota.IRAireAcondicionado;
+import com.example.smarthome.tasmota.IRRemote;
+import com.example.smarthome.tasmota.Sonoff;
 
 import java.util.ArrayList;
 
 public class BuscarActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final String TOPIC = "ewpe-smart/#";
     private RelativeLayout lytAnyadirDispositivo;
     private static ArrayList<String> macs = new ArrayList<>();
-
+    private static Spinner lista;
     private static Button btnAnyadirTasmota;
-    private static EditText etSonoff;
+    private static EditText etTasmota;
     private static Button btnAnyadirRPi;
     private static EditText etRPi;
     private static RecyclerView recyclerView;
@@ -37,13 +44,17 @@ public class BuscarActivity extends AppCompatActivity implements View.OnClickLis
 
         lytAnyadirDispositivo = findViewById(R.id.lytNombreDispositivo);
 
+        lista = findViewById(R.id.spnTasmota);
+
         btnAnyadirTasmota = findViewById(R.id.btnAnyadirTasmota);
         btnAnyadirTasmota.setOnClickListener(this);
         btnAnyadirRPi = findViewById(R.id.btnAnyadirRPi);
         btnAnyadirRPi.setOnClickListener(this);
 
-        etSonoff = findViewById(R.id.etSonoff);
+        etTasmota = findViewById(R.id.etTasmota);
         etRPi = findViewById(R.id.etRPi);
+
+        spinnerTamota();
 
         recyclerView = findViewById(R.id.recyclerListaDispositivos);
         recyclerView.setHasFixedSize(true);
@@ -89,11 +100,29 @@ public class BuscarActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
 
             case R.id.btnAnyadirTasmota:
-                Sonoff sonoff = new Sonoff();
-                sonoff.setMac(etSonoff.getText().toString());
-                sonoff.setName(etSonoff.getText().toString());
-                DeviceListActivity.anyadirDispositivo(sonoff,sonoff.getMac(),sonoff.getName());
 
+                if (lista.getSelectedItem().toString().toLowerCase().equals("sonoff")) {
+
+                    Sonoff sonoff = new Sonoff();
+                    sonoff.setMac(etTasmota.getText().toString());
+                    sonoff.setName(etTasmota.getText().toString());
+                    DeviceListActivity.anyadirDispositivo(sonoff, sonoff.getMac(), sonoff.getName());
+
+                } else if (lista.getSelectedItem().toString().toLowerCase().equals("ir ac")) {
+
+                    IRAireAcondicionado aireAcondicionado = new IRAireAcondicionado();
+                    aireAcondicionado.setMac(etTasmota.getText().toString());
+                    aireAcondicionado.setName(etTasmota.getText().toString());
+                    DeviceListActivity.anyadirDispositivo(aireAcondicionado,aireAcondicionado.getMac(),aireAcondicionado.getName());
+
+                } else if (lista.getSelectedItem().toString().toLowerCase().equals("ir tv")) {
+
+                    IRRemote remote = new IRRemote();
+                    remote.setMac(etTasmota.getText().toString());
+                    remote.setName(etTasmota.getText().toString());
+                    DeviceListActivity.anyadirDispositivo(remote,remote.getMac(),remote.getNombre());
+
+                }
                 break;
 
             case R.id.btnAnyadirRPi:
@@ -105,5 +134,13 @@ public class BuscarActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
         }
+    }
+
+    public void spinnerTamota() {
+
+        String[] items = new String[]{"Sonoff", "IR AC", "IR TV"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        lista.setAdapter(adapter);
+
     }
 }

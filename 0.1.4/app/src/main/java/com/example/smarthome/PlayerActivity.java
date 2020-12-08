@@ -1,19 +1,17 @@
 package com.example.smarthome;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -61,6 +59,14 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
         mAdapter = new PlayerActivityAdapter(this, archivos);
         recyclerView.setAdapter(mAdapter);
 
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        if (!DeviceListActivity.getMqttAndroidClient().getMqttAndroidClient().isConnected()) {
+            DeviceListActivity.getMqttAndroidClient().conectar();
+        }
     }
 
     @Override

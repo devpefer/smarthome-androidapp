@@ -1,6 +1,6 @@
-package com.example.smarthome;
+package com.example.smarthome.tasmota;
 
-public class Sonoff extends MQTTDevice {
+public class Sonoff extends Tasmota {
 
     private String pow ="OFF";
     private String mac = "";

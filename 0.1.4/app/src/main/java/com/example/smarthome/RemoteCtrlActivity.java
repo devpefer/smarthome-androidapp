@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smarthome.ewpe.AireAcondicionado;
+
 public class RemoteCtrlActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static  String mac;
@@ -80,7 +82,9 @@ public class RemoteCtrlActivity extends AppCompatActivity implements View.OnClic
     protected void onResume() {
         super.onResume();
 
-
+        if (!DeviceListActivity.getMqttAndroidClient().getMqttAndroidClient().isConnected()) {
+            DeviceListActivity.getMqttAndroidClient().conectar();
+        }
     }
 
     protected void onPause() {
