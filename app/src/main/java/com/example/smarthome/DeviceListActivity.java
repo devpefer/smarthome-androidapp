@@ -1,5 +1,6 @@
 package com.example.smarthome;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
     private static ArrayList<Sonoff> SonoffParams;
     private static ArrayList<IRAireAcondicionado> irAirCoParams;
     private static ArrayList<RPi> RPiParams;
+    private static Context context;
 
     private static RecyclerView recyclerView;
     private static RecyclerView.Adapter mAdapter;
@@ -140,6 +142,8 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
         mAdapter = new DeviceListActivityAdapter(this, devices);
         recyclerView.setAdapter(mAdapter);
 
+        context = getApplicationContext();
+
     }
 
     protected void onStart() {
@@ -216,6 +220,14 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
 
     public static void setRPiParams(ArrayList<RPi> RPiParams) {
         DeviceListActivity.RPiParams = RPiParams;
+    }
+
+    public static ArrayList<AireAcondicionado> getAirCoParams() {
+        return AirCoParams;
+    }
+
+    public static ArrayList<IRAireAcondicionado> getIrAirCoParams() {
+        return irAirCoParams;
     }
 
     public static RecyclerView.Adapter getmAdapter() {
@@ -318,6 +330,52 @@ public class DeviceListActivity extends AppCompatActivity implements View.OnClic
 
 
 
+    }
+
+    public static void deleteDevice(MQTTDevice mqttDevice) {
+
+        SharedPreferences prefs;
+
+        Gson gson = new Gson();
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(DeviceListActivity.getContext());
+
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+
+        if (mqttDevice instanceof AireAcondicionado) {
+
+            AirCoParams.remove(mqttDevice);
+            String arrayListAires = gson.toJson(getAirCoParams());
+            prefsEditor.putString("listaAires"+nombrelugar,arrayListAires);
+
+        } else if (mqttDevice instanceof RPi) {
+
+            RPiParams.remove(mqttDevice);
+            String arrayListRPi = gson.toJson(getRPiParams());
+            prefsEditor.putString("listaRPi"+nombrelugar,arrayListRPi);
+
+        } else if (mqttDevice instanceof Sonoff) {
+
+            SonoffParams.remove(mqttDevice);
+            String arrayListSonoff = gson.toJson(getSonoffParams());
+            prefsEditor.putString("listaSonoff"+nombrelugar,arrayListSonoff);
+
+        } else if (mqttDevice instanceof IRAireAcondicionado) {
+
+            irAirCoParams.remove(mqttDevice);
+            String arrayListIRAires = gson.toJson(getIrAirCoParams());
+            prefsEditor.putString("listaAires"+nombrelugar,arrayListIRAires);
+
+        }
+
+        prefsEditor.apply();
+
+        devices.remove(mqttDevice);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public static Context getContext() {
+        return context;
     }
 
     public static MQTTUtils getMqttAndroidClient() {

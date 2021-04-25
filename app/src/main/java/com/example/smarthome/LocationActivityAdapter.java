@@ -3,9 +3,12 @@ package com.example.smarthome;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +23,7 @@ public class LocationActivityAdapter extends RecyclerView.Adapter<LocationActivi
 
 
 
-    public static class ViewHolderDatos extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    public static class ViewHolderDatos extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, PopupMenu.OnMenuItemClickListener  {
 
         public TextView tvNombreLocation;
         public LinearLayout lytLocation;
@@ -32,6 +35,7 @@ public class LocationActivityAdapter extends RecyclerView.Adapter<LocationActivi
             tvNombreLocation = v.findViewById(R.id.tvNombreLocation);
             lytLocation = v.findViewById(R.id.lytRecyclerLocation);
             lytLocation.setOnClickListener(this);
+            lytLocation.setOnLongClickListener(this);
 
         }
 
@@ -52,10 +56,42 @@ public class LocationActivityAdapter extends RecyclerView.Adapter<LocationActivi
                         context.startActivity(intent);
                     }
                 }
+            }
+        }
 
+        @Override
+        public boolean onLongClick(View v) {
+            if (v.getId() == R.id.lytRecyclerLocation) {
+                showPopupEditLocation(v);
+            }
+            return true;
+        }
 
+        public void showPopupEditLocation(View v) {
+            PopupMenu popup = new PopupMenu(context, v);
+            popup.setOnMenuItemClickListener(this);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.menu_locationproperties, popup.getMenu());
+            popup.show();
+
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+
+                case R.id.menuLocationEliminar:
+                    for(int i = 0; i < LocationActivity.getLocations().size(); i++){
+
+                        if(LocationActivity.getLocations().get(i).getNombre().equals(tvNombreLocation.getText().toString())) {
+                            LocationActivity.deleteLocation(LocationActivity.getLocations().get(i));
+                        }
+                    }
+                    break;
 
             }
+
+            return true;
         }
     }
 

@@ -178,4 +178,29 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
         mAdapter.notifyDataSetChanged();
     }
 
+    public static void deleteLocation(Location location) {
+
+        SharedPreferences prefs;
+
+        locations.remove(location);
+        locationsNombres.remove(location.getNombre());
+
+        Gson gson = new Gson();
+
+        String arrayListLocations = gson.toJson(getLocations());
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor prefsEditor = prefs.edit();
+
+        prefsEditor.putString("listaLocations",arrayListLocations);
+        prefsEditor.putString("listaLocationsNombres",arrayListLocations);
+        prefsEditor.remove("listaAires"+location.getNombre());
+        prefsEditor.remove("listaRPi"+location.getNombre());
+        prefsEditor.remove("listaSonoff"+location.getNombre());
+        prefsEditor.apply();
+
+        mAdapter.notifyDataSetChanged();
+    }
+
 }
